@@ -190,7 +190,7 @@ public class post_activity extends AppCompatActivity {
 
     public boolean isValidAddress(String s) {
       s = s.replaceAll(" ","");
-        if(s.matches("\\d+[a-z]?\\d?[a-z]+")) {
+        if(s.matches("\\d+[A-z]?\\d?[A-z]+")) {
             return true;
         }
         return false;
@@ -204,7 +204,7 @@ public class post_activity extends AppCompatActivity {
 
     public boolean isValidCity(String s) {
       s= s.replaceAll(" ","");
-        if(s.matches("[a-z]+")) {
+        if(s.matches("[A-z]+")) {
             return true;
         }
         return false;
@@ -244,6 +244,33 @@ public class post_activity extends AppCompatActivity {
     }
     public boolean isValidContact(String s){
         if(s.matches("[0-9]{10}")) {
+            return true;
+        }
+        return false;
+    }
+    public boolean isValidStartTime(String s) {
+        s = s.replaceAll(":","");
+        int hours = Integer.parseInt(s.substring(0,2));
+        int minutes = Integer.parseInt(s.substring(2,4));
+        if((hours <= 23 && minutes <= 59) && s.length() == 4) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidEndTime(String s) {
+        s = s.replaceAll(":","");
+        int hours = Integer.parseInt(s.substring(0,2));
+        int minutes = Integer.parseInt(s.substring(2,4));
+        if((hours <= 23 && minutes <= 59) && s.length() == 4) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isValidPrice(String s) {
+        s= s.replaceAll("$","");
+        if(s.matches("[0-9]{2}")) {
             return true;
         }
         return false;

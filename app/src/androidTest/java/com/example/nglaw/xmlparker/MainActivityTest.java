@@ -15,6 +15,11 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
+import android.support.test.espresso.ViewInteraction;
+
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 /**
  * Created by jeffrey on 11/8/17.
  */
@@ -24,9 +29,13 @@ public class MainActivityTest {
 
     private MainActivity mActivity = null;
 
+
     Instrumentation.ActivityMonitor monitor_post = getInstrumentation().addMonitor(post_activity.class.getName(), null, false);
     Instrumentation.ActivityMonitor monitor_search = getInstrumentation().addMonitor(search_act.class.getName(), null, false);
     Instrumentation.ActivityMonitor monitor_login = getInstrumentation().addMonitor(activity_login.class.getName(), null, false);
+    Instrumentation.ActivityMonitor monitor_loginBtn2 = getInstrumentation().addMonitor(activity_login.class.getName(), null, false);
+    Instrumentation.ActivityMonitor monitor_regButton = getInstrumentation().addMonitor(activity_register.class.getName(), null, false);
+
 
     /*
     private Instrumentation.ActivityMonitor monitor_post;
@@ -76,6 +85,25 @@ public class MainActivityTest {
         Activity loginActivity = getInstrumentation().waitForMonitorWithTimeout(monitor_login, 5000);
         assertNotNull("activity_login Activity was not started", loginActivity);
         loginActivity.finish();
+    }
+
+    @Test
+    public void testLaunchOfLoginBtn2() throws Exception {
+        onView(withId(R.id.loginButton)).perform(click());
+        assertNotNull(mActivity.findViewById(R.id.loginButton2));
+        onView(withId(R.id.loginButton2)).perform(click());
+        Activity loginBtn2Activity = getInstrumentation().waitForMonitorWithTimeout(monitor_loginBtn2, 5000);
+        assertNotNull("loginButton2 Activity was not started", loginBtn2Activity);
+        loginBtn2Activity.finish();
+    }
+
+    @Test
+    public void testLaunchOfRegBtn() throws Exception {
+        assertNotNull(mActivity.findViewById(R.id.regButton));
+        onView(withId(R.id.regButton)).perform(click());
+        Activity regButtonActivity = getInstrumentation().waitForMonitorWithTimeout(monitor_regButton, 5000);
+        assertNotNull("regButton Activity was not started", regButtonActivity);
+        regButtonActivity.finish();
     }
 }
 

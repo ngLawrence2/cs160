@@ -91,4 +91,66 @@ public class post_activityTest {
         result = myActivity.isValidIndex("asdasdaSfds 95136 11/9/2017");
         assertEquals(false, result);
     }
+    @Test
+    public void isValidStartTime1() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidStartTime("07:33");
+        assertEquals(true,result);
+    }
+
+    @Test
+    public void isValidStartTime2() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidStartTime("25:33");
+        assertEquals(false,result);
+    }
+
+    @Test
+    public void isValidStartTime3() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidStartTime("100:33");
+        assertEquals(false,result);
+    }
+
+    @Test
+    public void isValidEndTime1() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidEndTime("22:54");
+        assertEquals(true,result);
+    }
+
+    @Test
+    public void isValidEndTime2() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidEndTime("00:54");
+        assertEquals(true,result);
+    }
+
+    @Test
+    public void isValidEndTime3() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidEndTime("54:00");
+        assertEquals(false,result);
+    }
+
+    @Test
+    public void isValidPrice1() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidPrice("74");
+        assertEquals(true,result);
+    }
+
+    @Test
+    public void isValidPrice2() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidPrice("100");
+        assertEquals(false,result);
+    }
+
+    @Test
+    public void isValidPrice3() throws Exception {
+        post_activity myActivity = new post_activity();
+        boolean result = myActivity.isValidPrice("-1");
+        assertEquals(false,result);
+    }
 }
