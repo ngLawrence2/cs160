@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Kevin\Desktop\CS160\cs160-master\app\app.iml" filepath="C:\Users\Kevin\Desktop\CS160\cs160-master\app\app.iml" />
+      <module fileurl="file://C:\Users\Kevin\Desktop\CS160\cs160-master\cs160.iml" filepath="C:\Users\Kevin\Desktop\CS160\cs160-master\cs160.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cs160-master.iml" filepath="$PROJECT_DIR$/cs160-master.iml" />
+      <module fileurl="file://C:\Users\Kevin\Desktop\CS160\cs160-master\cs160-master.iml" filepath="C:\Users\Kevin\Desktop\CS160\cs160-master\cs160-master.iml" />
+      <module fileurl="file://C:\Users\Kevin\Desktop\CS160\cs160-master\finalApp.iml" filepath="C:\Users\Kevin\Desktop\CS160\cs160-master\finalApp.iml" />
+      <module fileurl="file://C:\Users\Kevin\lamjay415\Desktop\cs160\xmlparker.iml" filepath="C:\Users\Kevin\lamjay415\Desktop\cs160\xmlparker.iml" />
+    </modules>
+  </component>
+</project>

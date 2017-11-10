@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ParkHere</string>
+    <string name="title_activity_search_activity">search_activity</string>
+    <string name="title_activity_search_result">searchResult</string>
+    <string name="title_activity_search_res">searchRes</string>
+    <string name="title_activity_search">search</string>
+    <string name="title_activity_result">result</string>
+</resources>

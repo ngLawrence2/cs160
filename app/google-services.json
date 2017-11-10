@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "316064289644",
+    "firebase_url": "https://parkhere-a09f8.firebaseio.com",
+    "project_id": "parkhere-a09f8",
+    "storage_bucket": "parkhere-a09f8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316064289644:android:61ee2f8a21c3a66f",
+        "android_client_info": {
+          "package_name": "com.example.nglaw.xmlparker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "316064289644-994f56naah2itc6k6vohrgpvfuspvgn7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.nglaw.xmlparker",
+            "certificate_hash": "b0ea2e7ef809bde85848d939e7d4ba9391d66861"
+          }
+        },
+        {
+          "client_id": "316064289644-6tv3mkru55b8gv0h9be5omtfpm55qmrp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHcQOzUsT63Pd7-ZI3tW4VVV5oPaCEKXQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "316064289644-6tv3mkru55b8gv0h9be5omtfpm55qmrp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nglaw.xmlparker.activity_register">
+
+    <EditText
+        android:id="@+id/nameText"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/nameText2"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameText" />
+
+    <EditText
+        android:id="@+id/emailText2"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameText2" />
+
+    <EditText
+        android:id="@+id/pwText2"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailText2" />
+
+    <Button
+        android:id="@+id/regButton"
+        android:layout_width="355dp"
+        android:layout_height="46dp"
+        android:text="Register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwText2" />
+
+    <TextView
+        android:id="@+id/fnTV"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:text="First Name"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/nameText" />
+
+    <TextView
+        android:id="@+id/lnTV"
+        android:layout_width="80dp"
+        android:layout_height="28dp"
+        android:text="Last Name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fnTV"
+        app:layout_constraintRight_toLeftOf="@+id/nameText2"
+        app:layout_constraintBottom_toTopOf="@+id/regEmailTV" />
+
+    <TextView
+        android:id="@+id/regEmailTV"
+        android:layout_width="82dp"
+        android:layout_height="28dp"
+        android:text="Email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/regPWTV"
+        app:layout_constraintRight_toRightOf="@+id/lnTV"
+        app:layout_constraintTop_toBottomOf="@+id/lnTV" />
+
+    <TextView
+        android:id="@+id/regPWTV"
+        android:layout_width="82dp"
+        android:layout_height="28dp"
+        android:text="Password"
+        app:layout_constraintBottom_toTopOf="@+id/regButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/regEmailTV"
+        app:layout_constraintTop_toBottomOf="@+id/regEmailTV" />
+</android.support.constraint.ConstraintLayout>

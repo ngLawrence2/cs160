@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.nglaw.xmlparker.activity_login">
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintLeft_toRightOf="@+id/emailTV"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <EditText
+        android:id="@+id/pwText"
+        android:layout_width="281dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintLeft_toRightOf="@+id/pwTV"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+
+    <Button
+        android:id="@+id/loginButton2"
+        android:layout_width="355dp"
+        android:layout_height="46dp"
+        android:text="Login"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pwText" />
+
+    <TextView
+        android:id="@+id/regText"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Register Here"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/emailTV"
+        android:layout_width="66dp"
+        android:layout_height="23dp"
+        android:text="Email"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/emailText"/>
+
+    <TextView
+        android:id="@+id/pwTV"
+        android:layout_width="68dp"
+        android:layout_height="25dp"
+        android:text="Password"
+        app:layout_constraintTop_toBottomOf="@+id/emailTV"
+        app:layout_constraintRight_toLeftOf="@+id/pwText"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton2" />
+
+
+</android.support.constraint.ConstraintLayout>
