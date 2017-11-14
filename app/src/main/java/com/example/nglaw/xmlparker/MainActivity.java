@@ -36,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(searchActivity);
             }
         });
+        /*
         loginButton=(Button)findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent loginActivity= new Intent(MainActivity.this,activity_login.class);
                 startActivity(loginActivity);
             }
-        });
+        });*/
         /*Intent intent = getIntent();
         String email = intent.getStringExtra("email");
         afterLoginTV.setText(email);*/

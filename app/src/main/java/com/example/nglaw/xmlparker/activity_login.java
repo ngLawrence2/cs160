@@ -65,9 +65,9 @@ public class activity_login extends AppCompatActivity {
 
     protected void onStop() {
         super.onStop();  // Always call the superclass method first
-        mAuth= FirebaseAuth.getInstance();
+       mAuth= FirebaseAuth.getInstance();
         mAuth.signOut();
-        Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
     }
 
     protected void onStart(){
