@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Kevin/Desktop/CS160/cs160-master/app/app.iml" filepath="$PROJECT_DIR$/../../../Kevin/Desktop/CS160/cs160-master/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/assign5.iml" filepath="$PROJECT_DIR$/assign5.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../Kevin/Desktop/CS160/cs160-master/cs160.iml" filepath="$PROJECT_DIR$/../../../Kevin/Desktop/CS160/cs160-master/cs160.iml" />

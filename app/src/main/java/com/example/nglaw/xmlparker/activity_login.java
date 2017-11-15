@@ -27,6 +27,7 @@ public class activity_login extends AppCompatActivity {
         setContentView(R.layout.activity_login_activity);
 
         mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
         final TextView registerLink = (TextView) findViewById(R.id.regText);
 
         registerLink.setOnClickListener(new View.OnClickListener(){
@@ -62,13 +63,13 @@ public class activity_login extends AppCompatActivity {
             }
         });
     }
-
+/*
     protected void onStop() {
         super.onStop();  // Always call the superclass method first
        mAuth= FirebaseAuth.getInstance();
-        mAuth.signOut();
+     //   mAuth.signOut();
        // Toast.makeText(getApplicationContext(), "onStop called", Toast.LENGTH_LONG).show();
-    }
+    }*/
 
     protected void onStart(){
         super.onStart();
