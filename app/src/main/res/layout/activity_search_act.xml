@@ -95,7 +95,7 @@
         android:id="@+id/dateOpenText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date Open mm/dd/yy"
+        android:text="Date Open MM/DD/YY"
         android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@id/dateOpen"
         app:layout_constraintBottom_toBottomOf="@+id/dateOpen"

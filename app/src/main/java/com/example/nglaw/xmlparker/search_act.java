@@ -9,6 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class search_act extends AppCompatActivity {
     TextView destinationAddressText, destinationCityText, destinationZipText, timeOpenText,dateOpenText;
@@ -19,6 +29,8 @@ public class search_act extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_act);
+
+
 
         destinationAddressText = (TextView) findViewById(R.id.destinationAddressText);
         destinationAddressBox = (EditText) findViewById(R.id.destinationAddress);
@@ -106,6 +118,9 @@ public class search_act extends AppCompatActivity {
             }
         });
 
+
+
+
         searchButton=(Button) findViewById(R.id.searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
 
@@ -117,7 +132,32 @@ public class search_act extends AppCompatActivity {
                 String zip= destinationZipBox.getText().toString().trim();
                 String city= destinationCityBox.getText().toString().toLowerCase().trim();
 
+                Calendar calendar= Calendar.getInstance();
+                int currentYear = calendar.get(Calendar.YEAR);
+                int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                int currentMonth=calendar.get(Calendar.MONTH);
+                String currentDate = (currentMonth+1) + "/" + (currentDayOfMonth-1) + "/" +currentYear;
+                Toast.makeText(search_act.this, currentDate, Toast.LENGTH_LONG).show();
+              DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
+
+                Query query =  ref.orderByChild("date").endAt(currentDate);
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot d: dataSnapshot.getChildren()) {
+                            d.getRef().removeValue();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+
+
+                //changes to listview of results
                 Intent intent= new Intent(search_act.this,searchRes.class);
                String index = city+zip+dateOpen;
                 intent.putExtra("index", index);

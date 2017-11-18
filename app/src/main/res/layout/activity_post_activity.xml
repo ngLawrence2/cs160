@@ -121,7 +121,7 @@
         android:id="@+id/dateAvailableText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Day Available mm/dd/yy"
+        android:text="Day Available MM/DD/YY"
         android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toLeftOf="@id/dayAvailableBox"
         app:layout_constraintBottom_toBottomOf="@+id/dayAvailableBox"
