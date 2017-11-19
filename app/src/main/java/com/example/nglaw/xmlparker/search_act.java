@@ -137,7 +137,8 @@ public class search_act extends AppCompatActivity {
                 int currentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                 int currentMonth=calendar.get(Calendar.MONTH);
                 String currentDate = (currentMonth+1) + "/" + (currentDayOfMonth-1) + "/" +currentYear;
-                Toast.makeText(search_act.this, currentDate, Toast.LENGTH_LONG).show();
+
+
               DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
 
@@ -159,8 +160,11 @@ public class search_act extends AppCompatActivity {
 
                 //changes to listview of results
                 Intent intent= new Intent(search_act.this,searchRes.class);
+
+                String addr= destinationAddressBox.getText().toString().trim() + city + zip;
                String index = city+zip+dateOpen;
                 intent.putExtra("index", index);
+                intent.putExtra("address", addr);
                 startActivity(intent);
 
             }

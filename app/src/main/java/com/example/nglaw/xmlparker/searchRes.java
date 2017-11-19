@@ -36,7 +36,7 @@ public class searchRes extends AppCompatActivity {
 
         Intent intent = getIntent();
         String index = intent.getStringExtra("index");
-
+        final String address = intent.getStringExtra("address");
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,c);
         // Set The Adapter
@@ -48,6 +48,8 @@ public class searchRes extends AppCompatActivity {
                 String selectedpost = (String)parent.getItemAtPosition(position);
                 Intent i= new Intent(searchRes.this,result.class);
                 i.putExtra("post",selectedpost);
+
+                i.putExtra("address", address);
                 startActivity(i);
             }
         });
