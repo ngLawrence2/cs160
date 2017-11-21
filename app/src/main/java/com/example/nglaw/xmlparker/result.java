@@ -36,11 +36,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.round;
 
-public class result extends AppCompatActivity {
+public class result extends AppCompatActivity implements AsyncResponse {
     TextView text;
     Button btn;
     DatabaseReference ref;
@@ -97,6 +98,45 @@ public class result extends AppCompatActivity {
         dist = locationA.distanceTo(locationB);
         dist = dist/1000;
         String distMiles = String.format("%.2f", dist);
+
+        if(dist>100 || dist==0) {
+            try {
+                GetCoordinates task = new GetCoordinates();
+                task.execute(addr).get();
+             //   Toast.makeText(result.this, "lat= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
+            //    Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
+                locationB.setLatitude(mapsLatLong[0]);
+                locationB.setLongitude(mapsLatLong[1]);
+                dist = locationA.distanceTo(locationB);
+                dist = dist/1000;
+                distMiles = String.format("%.2f", dist);
+            } catch (Exception e) {
+
+            }
+        }
+
+        if(dist>100 || dist==0) {
+            try {
+                GetCoordinates task = new GetCoordinates();
+                task.execute(destinationAddress).get();
+               // Toast.makeText(result.this, "latA= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
+            //    Toast.makeText(result.this, "longB= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
+                locationA.setLatitude(mapsLatLong[0]);
+                locationA.setLongitude(mapsLatLong[1]);
+                dist = locationB.distanceTo(locationA);
+                dist = dist/1000;
+                distMiles = String.format("%.2f", dist);
+            } catch (Exception e) {
+
+            }
+        }
+
+
+
+
+
+
+
 
         text.setText(val + "\n" + "distance = " + distMiles + " miles");
 
@@ -161,10 +201,29 @@ public class result extends AppCompatActivity {
         return latlong;
     }
 
+    @Override
+    public void processFinish(String output) {
+        try {
+            JSONObject jsonObject= new JSONObject(output);
+            String lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                    .get("lat").toString();
+            double lati= Double.parseDouble(lat);
+            String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                    .get("lng").toString();
+            double longi= Double.parseDouble(lng);
+            mapsLatLong[0]=lati;
+            mapsLatLong[1]=longi;
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private class GetCoordinates extends AsyncTask<String, Void, String> {
       //  public AsyncResponse delegate = null;
         ProgressDialog dialog = new ProgressDialog(result.this);
-
+        public double lati;
+        public double longi;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -175,11 +234,27 @@ public class result extends AppCompatActivity {
         protected String doInBackground(String... params) {
 
            String response;
+
             try {
                 String address = params[0];
                 HTTPDataHandler http = new HTTPDataHandler();
                 String url = String.format("https://maps.googleapis.com/maps/api/geocode/json?address=%s", address);
                 response = http.getHttpData(url);
+                try {
+                    JSONObject jsonObject= new JSONObject(response);
+                    String lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                            .get("lat").toString();
+                    double lati= Double.parseDouble(lat);
+                    String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
+                            .get("lng").toString();
+                    double longi= Double.parseDouble(lng);
+                    mapsLatLong[0] = lati;
+                    mapsLatLong[1] = longi;
+
+
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
                 return response;
             }catch (Exception e) {
 
@@ -189,21 +264,8 @@ public class result extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            try {
-                JSONObject jsonObject= new JSONObject(s);
-                String lat = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
-                        .get("lat").toString();
-                double lati= Double.parseDouble(lat);
-                String lng = ((JSONArray)jsonObject.get("results")).getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
-                        .get("lng").toString();
-                double longi= Double.parseDouble(lng);
-                mapsLatLong[0] = lati;
-                mapsLatLong[1] = longi;
-                Toast.makeText(result.this, "lat= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
-                Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
-            }catch(Exception e) {
-                e.printStackTrace();
-            }
+            super.onPostExecute(s);
+
         }
     }
 
