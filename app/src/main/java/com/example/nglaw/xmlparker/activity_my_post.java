@@ -1,17 +1,14 @@
 package com.example.nglaw.xmlparker;
 
-import android.app.ListActivity;
 import android.content.Intent;
-import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,15 +18,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class searchRes extends AppCompatActivity {
+public class activity_my_post extends AppCompatActivity {
     ListView listview;
     DatabaseReference ref;
     ArrayList<String> c;
-
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_my_post);
+
+        mAuth = FirebaseAuth.getInstance();
         listview= (ListView)findViewById(R.id.myListView);
 
         c=new ArrayList<String>();
@@ -37,6 +36,9 @@ public class searchRes extends AppCompatActivity {
         Intent intent = getIntent();
         String index = intent.getStringExtra("index");
         final String address = intent.getStringExtra("address");
+
+        String owner = mAuth.getCurrentUser().getEmail();
+
 
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,c);
         // Set The Adapter
@@ -46,9 +48,8 @@ public class searchRes extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedpost = (String)parent.getItemAtPosition(position);
-                Intent i= new Intent(searchRes.this,result.class);
+                Intent i= new Intent(activity_my_post.this,result.class);
                 i.putExtra("post",selectedpost);
-
                 i.putExtra("address", address);
                 startActivity(i);
             }
@@ -56,7 +57,7 @@ public class searchRes extends AppCompatActivity {
 
         ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
-        Query query =  ref.orderByChild("index").equalTo(index);
+        Query query =  ref.orderByChild("owner").equalTo(owner);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -83,7 +84,5 @@ public class searchRes extends AppCompatActivity {
         listview.setAdapter(adapter);
 
     }
-
-
 
 }

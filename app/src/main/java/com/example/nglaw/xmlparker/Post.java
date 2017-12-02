@@ -5,8 +5,8 @@ package com.example.nglaw.xmlparker;
  */
 
 public class Post {
-    String address, city,zip,date,startTime,endTime,price,index,contact;
-    public Post(String address, String city, String zip, String date, String startTime,String endTime,String price,String index, String contact) {
+    String address, city,zip,date,startTime,endTime,price,index,contact,owner;
+    public Post(String address, String city, String zip, String date, String startTime,String endTime,String price,String index, String contact, String owner) {
         this.address=address;
         this.city=city;
         this.zip=zip;
@@ -16,9 +16,11 @@ public class Post {
         this.price=price;
         this.index= index;
         this.contact=contact;
+        this.owner=owner;
+
     }
     public String toString() {
-        return address+ " " + city + " " + zip + " " + date + " " + startTime+ " " +endTime+ " " +price + contact;
+        return address+ " " + city + " " + zip + " " + date + " " + startTime+ " " +endTime+ " " +price + contact + " "+ owner;
     }
     public String getAddress() {
         return address;
@@ -50,6 +52,7 @@ public class Post {
     public String getIndex() {
         return index;
     }
+    public String getOwner() { return owner; }
     public void setAddress(String a) {
         address = a;
     }
@@ -71,4 +74,5 @@ public class Post {
     public void setPrice(String a) {
         price = a;
     }
+    public void setOwner(String a) { owner= a;}
 }

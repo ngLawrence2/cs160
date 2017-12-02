@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +46,8 @@ public class result extends AppCompatActivity implements AsyncResponse {
     TextView text;
     Button btn;
     DatabaseReference ref;
+    private FirebaseAuth mAuth;
+
 
     double mapsLatLong[] = new double[2];
     @Override
@@ -59,7 +62,7 @@ public class result extends AppCompatActivity implements AsyncResponse {
         String val=intent.getStringExtra("post");
         text = (TextView)findViewById(R.id.textView);
 
-
+        mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
         String destinationAddress = intent.getStringExtra("address");
@@ -86,7 +89,8 @@ public class result extends AppCompatActivity implements AsyncResponse {
         String addrZip= parkingSpotAddress.substring(parkingSpotAddress.indexOf("zip=") + 4).trim();
 
         String addr = parkingSpotAddress.substring(parkingSpotAddress.indexOf("address=") + 8, parkingSpotAddress.indexOf("price")).trim() + ", " + addrcity  + ", " + addrZip ;
-
+        addr = addr.substring(0, addr.indexOf("owner="));
+      //  Toast.makeText(result.this, addr, Toast.LENGTH_LONG).show();
         try {
             latlongB = getLatLong(addr);
                 locationB.setLatitude(latlongB[0]);
@@ -104,7 +108,7 @@ public class result extends AppCompatActivity implements AsyncResponse {
                 GetCoordinates task = new GetCoordinates();
                 task.execute(addr).get();
              //   Toast.makeText(result.this, "lat= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
-            //    Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
+              //  Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
                 locationB.setLatitude(mapsLatLong[0]);
                 locationB.setLongitude(mapsLatLong[1]);
                 dist = locationA.distanceTo(locationB);
@@ -132,15 +136,25 @@ public class result extends AppCompatActivity implements AsyncResponse {
         }
 
 
+        String distanceString= "distance = " + distMiles + " miles";
+        if(dist>100) {
+            distanceString= "";
+        }
+
+        text.setText(val + "\n" + distanceString);
 
 
 
+        //Toast.makeText(result.this, owner, Toast.LENGTH_LONG).show();
 
-
-
-        text.setText(val + "\n" + "distance = " + distMiles + " miles");
 
         btn = (Button)findViewById(R.id.parkingSpotButton);
+
+        String owner= parkingSpotAddress.substring(parkingSpotAddress.indexOf("owner=") +6).trim();
+        String loggedinUser = mAuth.getCurrentUser().getEmail();
+        if(owner.equals(loggedinUser)) {
+             btn.setText("Delete");
+        }
         if(text.getText().toString().equals("No results")) {
             btn.setVisibility(View.INVISIBLE);
         }

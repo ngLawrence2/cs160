@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -19,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class post_activity extends AppCompatActivity {
     TextView addressText,cityText,zipText,dateAvailableText,startTimeText,endTimeText,priceText,contactText;
     EditText addressBox,cityBox,zipBox,dateAvailableBox,startTimeBox,endTimeBox,priceBox,contactBox;
-
+    private FirebaseAuth mAuth;
     Button sendData;
     DatabaseReference ref;
 
@@ -30,7 +31,9 @@ public class post_activity extends AppCompatActivity {
         setContentView(R.layout.activity_post_activity);
         ref = FirebaseDatabase.getInstance().getReferenceFromUrl("https://parkhere-a09f8.firebaseio.com/");
 
+        mAuth = FirebaseAuth.getInstance();
 
+        final String user =    mAuth.getCurrentUser().getEmail();
         addressText = (TextView) findViewById(R.id.addressText);
         addressBox = (EditText) findViewById(R.id.addressBox);
         addressBox.addTextChangedListener(new TextWatcher() {
@@ -168,7 +171,7 @@ public class post_activity extends AppCompatActivity {
                 String price=priceBox.getText().toString().trim();
                 String index = city+zip+dateAvail;
                 String contact = contactBox.getText().toString().trim();
-                Post post= new Post(address,city,zip,dateAvail,startTime,endTime,price,index,contact);
+                Post post= new Post(address,city,zip,dateAvail,startTime,endTime,price,index,contact,user);
                 ref.child("ParkingPost").push().setValue(post);
                 AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
                 builder.setTitle("Success!")

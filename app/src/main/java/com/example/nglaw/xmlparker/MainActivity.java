@@ -14,8 +14,8 @@ public class MainActivity extends AppCompatActivity {
 
     public Button postButton;
     public Button searchButton;
-    public Button loginButton;
-    TextView afterLoginTV;
+    public Button myPostsButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,17 +36,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(searchActivity);
             }
         });
-        /*
-        loginButton=(Button)findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+
+        myPostsButton=(Button)findViewById(R.id.myPostButton);
+        myPostsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent loginActivity= new Intent(MainActivity.this,activity_login.class);
-                startActivity(loginActivity);
+                Intent mypostact= new Intent(MainActivity.this,activity_my_post.class);
+                startActivity(mypostact);
             }
-        });*/
-        /*Intent intent = getIntent();
-        String email = intent.getStringExtra("email");
-        afterLoginTV.setText(email);*/
+        });
+
 
     }
 }

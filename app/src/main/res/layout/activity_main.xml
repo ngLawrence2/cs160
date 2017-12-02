@@ -23,11 +23,22 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <Button
+        android:id="@+id/myPostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Posts"
+        app:layout_constraintTop_toBottomOf="@+id/searchButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
     <TextView
         android:id="@+id/afterLoginTV"
         android:layout_width="148dp"
         android:layout_height="27dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
 </android.support.constraint.ConstraintLayout>
