@@ -150,8 +150,8 @@ public class result extends AppCompatActivity implements AsyncResponse {
 
         btn = (Button)findViewById(R.id.parkingSpotButton);
 
-        String owner= parkingSpotAddress.substring(parkingSpotAddress.indexOf("owner=") +6).trim();
-        String loggedinUser = mAuth.getCurrentUser().getEmail();
+      final  String owner= parkingSpotAddress.substring(parkingSpotAddress.indexOf("owner=") +6).trim();
+      final  String loggedinUser = mAuth.getCurrentUser().getEmail();
         if(owner.equals(loggedinUser)) {
              btn.setText("Delete");
         }
@@ -178,17 +178,31 @@ public class result extends AppCompatActivity implements AsyncResponse {
                     }
                 });
                 AlertDialog.Builder builder = new AlertDialog.Builder(result.this);
-                builder.setTitle("Success!")
-                        .setMessage("Please contact: " + contact)
-                        .setCancelable(false)
-                        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent home= new Intent(result.this,MainActivity.class);
-                                startActivity(home);
-                                dialog.cancel();
+                if(!owner.equals(loggedinUser)) {
+                    builder.setTitle("Success!")
+                            .setMessage("Please contact: " + contact)
+                            .setCancelable(false)
+                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent home = new Intent(result.this, MainActivity.class);
+                                    startActivity(home);
+                                    dialog.cancel();
 
-                            }
-                        });
+                                }
+                            });
+                }else {
+                    builder.setTitle("Success!")
+                            .setMessage("Post deleted")
+                            .setCancelable(false)
+                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent home = new Intent(result.this, MainActivity.class);
+                                    startActivity(home);
+                                    dialog.cancel();
+
+                                }
+                            });
+                }
                 AlertDialog alert = builder.create();
                 alert.show();
             }

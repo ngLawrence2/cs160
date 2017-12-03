@@ -75,4 +75,7 @@ public class Post {
         price = a;
     }
     public void setOwner(String a) { owner= a;}
+    public void setIndex(String a) {
+        index=a;
+    }
 }

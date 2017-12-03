@@ -11,10 +11,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.Toast;
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 public class post_activity extends AppCompatActivity {
@@ -162,31 +170,133 @@ public class post_activity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                String address = addressBox.getText().toString().toLowerCase().trim();
-                String city=cityBox.getText().toString().toLowerCase().trim();
-                String zip=zipBox.getText().toString().trim();
                 String dateAvail= dateAvailableBox.getText().toString().trim();
-                String startTime=startTimeBox.getText().toString().trim();
-                String endTime=endTimeBox.getText().toString().trim();
-                String price=priceBox.getText().toString().trim();
-                String index = city+zip+dateAvail;
-                String contact = contactBox.getText().toString().trim();
-                Post post= new Post(address,city,zip,dateAvail,startTime,endTime,price,index,contact,user);
-                ref.child("ParkingPost").push().setValue(post);
-                AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
-                builder.setTitle("Success!")
-                        .setMessage("Your post has been posted!")
-                        .setCancelable(false)
-                        .setNegativeButton("Close",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent home= new Intent(post_activity.this,MainActivity.class);
-                                startActivity(home);
-                                dialog.cancel();
+                String address = addressBox.getText().toString().toLowerCase().trim();
+                String city = cityBox.getText().toString().toLowerCase().trim();
+                String zip = zipBox.getText().toString().trim();
 
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
+                String startTime = startTimeBox.getText().toString().trim();
+                String endTime = endTimeBox.getText().toString().trim();
+                String price = priceBox.getText().toString().trim();
+                String index = city + zip + dateAvail;
+                String contact = contactBox.getText().toString().trim();
+                Post post = new Post(address, city, zip, dateAvail, startTime, endTime, price, index, contact, user);
+
+                //if parking spot is a single day
+                if(dateAvail.indexOf("-")==-1) {
+
+                  /*  String address = addressBox.getText().toString().toLowerCase().trim();
+                    String city = cityBox.getText().toString().toLowerCase().trim();
+                    String zip = zipBox.getText().toString().trim();
+
+                    String startTime = startTimeBox.getText().toString().trim();
+                    String endTime = endTimeBox.getText().toString().trim();
+                    String price = priceBox.getText().toString().trim();
+                    String index = city + zip + dateAvail;
+                    String contact = contactBox.getText().toString().trim();
+                    Post post = new Post(address, city, zip, dateAvail, startTime, endTime, price, index, contact, user);*/
+                    ref.child("ParkingPost").push().setValue(post);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
+                    builder.setTitle("Success!")
+                            .setMessage("Your post has been posted!")
+                            .setCancelable(false)
+                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent home = new Intent(post_activity.this, MainActivity.class);
+                                    startActivity(home);
+                                    dialog.cancel();
+
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+                }
+
+                //parking spot on multiple days such as 10/31/17 - 11/02/17
+                if(dateAvail.indexOf("-")> 0) {
+                    String firstDateMonth = dateAvail.substring(0,dateAvail.indexOf("/"));
+                    String firstDateDay= dateAvail.substring(dateAvail.indexOf("/")+1,dateAvail.indexOf("/")+3);
+                    String firstDateYear = dateAvail.substring(dateAvail.indexOf("/")+4, dateAvail.indexOf("-"));
+                    String inputString = firstDateDay +  "-" + firstDateMonth + "-20" +firstDateYear;
+                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+                    String secondDateMonth = dateAvail.substring(dateAvail.indexOf("-")+1, dateAvail.indexOf("-")+3 );
+                    String secondDateDay = dateAvail.substring(dateAvail.indexOf("-")+4, dateAvail.indexOf("-")+6 );
+                    String secondDateYear = dateAvail.substring(dateAvail.indexOf("-")+7, dateAvail.indexOf("-")+9 );
+                    String secondDateString = secondDateDay +  "-" + secondDateMonth + "-20" +secondDateYear;
+
+
+                    Date firstDate;
+                    Date secondDate;
+                    try {
+                         firstDate = dateFormat.parse(inputString);
+                        secondDate = dateFormat.parse(secondDateString);
+                        int days = (int)getDateDiffString(firstDate,secondDate) +1;
+
+                        Calendar cal = Calendar.getInstance();
+
+                        if(days < 7) {
+                                cal.setTime(firstDate);
+                                while (cal.getTime().before(secondDate)) {
+
+                                    String dates= cal.getTime().toString();
+
+                                    Date date = cal.getTime();
+
+                                    String formattedDate1 = new SimpleDateFormat("MM/dd/yyy HH:mm:ss").format(date);
+                                    String myDate= formattedDate1.substring(0, formattedDate1.indexOf(" "));
+                                    myDate.replace(" ","");
+                                    myDate= myDate.substring(0,6) + myDate.substring(8,10);
+                                    index =city + zip + myDate;
+                                    Post post1 = new Post(address, city, zip, myDate, startTime, endTime, price, index, contact, user);
+
+                                    ref.child("ParkingPost").push().setValue(post1);
+
+                                    cal.add(Calendar.DATE, 1);
+                                }
+
+                            String dates= cal.getTime().toString();
+
+                            Date date = cal.getTime();
+
+                            String formattedDate1 = new SimpleDateFormat("MM/dd/yyy HH:mm:ss").format(date);
+                            String myDate= formattedDate1.substring(0, formattedDate1.indexOf(" "));
+                            myDate.replace(" ","");
+
+
+
+                            myDate= myDate.substring(0,6) + myDate.substring(8,10);
+                            index =city + zip + myDate;
+                            Post post1 = new Post(address, city, zip, myDate, startTime, endTime, price, index, contact, user);
+
+                            ref.child("ParkingPost").push().setValue(post1);
+
+
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
+                            builder.setTitle("Success!")
+                                    .setMessage("Your post has been posted!")
+                                    .setCancelable(false)
+                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Intent home = new Intent(post_activity.this, MainActivity.class);
+                                            startActivity(home);
+                                            dialog.cancel();
+
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+
+                        } else {
+                            Toast.makeText(post_activity.this, "max number of days is 7", Toast.LENGTH_LONG).show();
+                        }
+
+                    } catch(Exception e) {
+                        Toast.makeText(post_activity.this, "check format", Toast.LENGTH_LONG).show();
+                    }
+                }
             }
         });
     }
@@ -277,5 +387,21 @@ public class post_activity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public long getDateDiffString(Date dateOne, Date dateTwo)
+    {
+        long timeOne = dateOne.getTime();
+        long timeTwo = dateTwo.getTime();
+        long oneDay = 1000 * 60 * 60 * 24;
+        long delta = (timeTwo - timeOne) / oneDay;
+
+        if (delta > 0) {
+           return delta;
+        }
+        else {
+            delta *= -1;
+            return delta;
+        }
     }
 }
