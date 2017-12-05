@@ -139,10 +139,12 @@ public class search_act extends AppCompatActivity {
                 String currentDate = (currentMonth+1) + "/" + (currentDayOfMonth-1) + "/" +currentYear;
 
 
+                int currentDate1 = currentMonth+currentDayOfMonth+currentYear-1;
+                Toast.makeText(search_act.this, currentDate, Toast.LENGTH_LONG).show();
               DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
 
-                Query query =  ref.orderByChild("date").endAt(currentDate);
+                Query query =  ref.orderByChild("date").endAt(currentDate1);
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

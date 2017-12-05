@@ -68,8 +68,16 @@ public class result extends AppCompatActivity implements AsyncResponse {
         String destinationAddress = intent.getStringExtra("address");
         double latlongA[];
         double latlongB[];
+        text.setText(val);
+        String parkingSpotAddress = text.getText().toString();
+        String addrcity=  parkingSpotAddress.substring(parkingSpotAddress.indexOf("city=") + 5, parkingSpotAddress.indexOf("date")).trim();
+        String addrZip= parkingSpotAddress.substring(parkingSpotAddress.indexOf("zip=") + 4).trim();
 
-
+        String addr = parkingSpotAddress.substring(parkingSpotAddress.indexOf("address=") + 8, parkingSpotAddress.indexOf("price")).trim() + ", " + addrcity  + ", " + addrZip ;
+        addr = addr.substring(0, addr.indexOf("owner="));
+        final  String owner= parkingSpotAddress.substring(parkingSpotAddress.indexOf("owner=") +6).trim();
+        final  String loggedinUser = mAuth.getCurrentUser().getEmail();
+        if(!owner.equals(loggedinUser)) {
         double dist = 0.0;
         Location locationA = new Location("point A");
         Location locationB = new Location("point B");
@@ -83,75 +91,70 @@ public class result extends AppCompatActivity implements AsyncResponse {
         }
 
 
-        text.setText(val);
-        String parkingSpotAddress = text.getText().toString();
-        String addrcity=  parkingSpotAddress.substring(parkingSpotAddress.indexOf("city=") + 5, parkingSpotAddress.indexOf("date")).trim();
-        String addrZip= parkingSpotAddress.substring(parkingSpotAddress.indexOf("zip=") + 4).trim();
 
-        String addr = parkingSpotAddress.substring(parkingSpotAddress.indexOf("address=") + 8, parkingSpotAddress.indexOf("price")).trim() + ", " + addrcity  + ", " + addrZip ;
-        addr = addr.substring(0, addr.indexOf("owner="));
       //  Toast.makeText(result.this, addr, Toast.LENGTH_LONG).show();
-        try {
-            latlongB = getLatLong(addr);
+
+
+            try {
+                latlongB = getLatLong(addr);
                 locationB.setLatitude(latlongB[0]);
                 locationB.setLongitude(latlongB[1]);
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        dist = locationA.distanceTo(locationB);
-        dist = dist/1000;
-        String distMiles = String.format("%.2f", dist);
-
-        if(dist>100 || dist==0) {
-            try {
-                GetCoordinates task = new GetCoordinates();
-                task.execute(addr).get();
-             //   Toast.makeText(result.this, "lat= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
-              //  Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
-                locationB.setLatitude(mapsLatLong[0]);
-                locationB.setLongitude(mapsLatLong[1]);
-                dist = locationA.distanceTo(locationB);
-                dist = dist/1000;
-                distMiles = String.format("%.2f", dist);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
-        }
+            dist = locationA.distanceTo(locationB);
+            dist = dist / 1000;
+            String distMiles = String.format("%.2f", dist);
 
-        if(dist>100 || dist==0) {
-            try {
-                GetCoordinates task = new GetCoordinates();
-                task.execute(destinationAddress).get();
-               // Toast.makeText(result.this, "latA= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
-            //    Toast.makeText(result.this, "longB= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
-                locationA.setLatitude(mapsLatLong[0]);
-                locationA.setLongitude(mapsLatLong[1]);
-                dist = locationB.distanceTo(locationA);
-                dist = dist/1000;
-                distMiles = String.format("%.2f", dist);
-            } catch (Exception e) {
+            if (dist > 100 || dist == 0) {
+                try {
+                    GetCoordinates task = new GetCoordinates();
+                    task.execute(addr).get();
+                    //   Toast.makeText(result.this, "lat= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(result.this, "long= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
+                    locationB.setLatitude(mapsLatLong[0]);
+                    locationB.setLongitude(mapsLatLong[1]);
+                    dist = locationA.distanceTo(locationB);
+                    dist = dist / 1000;
+                    distMiles = String.format("%.2f", dist);
+                } catch (Exception e) {
 
+                }
             }
+
+            if (dist > 100 || dist == 0) {
+                try {
+                    GetCoordinates task = new GetCoordinates();
+                    task.execute(destinationAddress).get();
+                    // Toast.makeText(result.this, "latA= " + mapsLatLong[0], Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(result.this, "longB= " + mapsLatLong[1], Toast.LENGTH_LONG).show();
+                    locationA.setLatitude(mapsLatLong[0]);
+                    locationA.setLongitude(mapsLatLong[1]);
+                    dist = locationB.distanceTo(locationA);
+                    dist = dist / 1000;
+                    distMiles = String.format("%.2f", dist);
+                } catch (Exception e) {
+
+                }
+            }
+
+
+            String distanceString = "distance = " + distMiles + " miles";
+            if (dist > 100) {
+                distanceString = "";
+            }
+
+            text.setText(val + "\n" + distanceString);
+
         }
-
-
-        String distanceString= "distance = " + distMiles + " miles";
-        if(dist>100) {
-            distanceString= "";
-        }
-
-        text.setText(val + "\n" + distanceString);
-
-
 
         //Toast.makeText(result.this, owner, Toast.LENGTH_LONG).show();
 
 
         btn = (Button)findViewById(R.id.parkingSpotButton);
 
-      final  String owner= parkingSpotAddress.substring(parkingSpotAddress.indexOf("owner=") +6).trim();
-      final  String loggedinUser = mAuth.getCurrentUser().getEmail();
+
         if(owner.equals(loggedinUser)) {
              btn.setText("Delete");
         }
