@@ -139,18 +139,37 @@ public class search_act extends AppCompatActivity {
                 String currentDate = (currentMonth+1) + "/" + (currentDayOfMonth-1) + "/" +currentYear;
 
 
-                int currentDate1 = currentMonth+currentDayOfMonth+currentYear-1;
-                Toast.makeText(search_act.this, currentDate, Toast.LENGTH_LONG).show();
+                final int currentDate1 = currentMonth+currentDayOfMonth+currentYear-1-2000;
+             //   Toast.makeText(search_act.this, currentDate, Toast.LENGTH_LONG).show();
               DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
 
-                Query query =  ref.orderByChild("date").endAt(currentDate1);
+               // Query query =  ref.orderByChild("date").endAt(currentDate1);
 
+                Query query =  ref.orderByChild("date");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for(DataSnapshot d: dataSnapshot.getChildren()) {
-                            d.getRef().removeValue();
+
+                        int myDate=0 ;
+                            String date1 = d.getValue() + "";
+                            String date= date1.substring(date1.indexOf("date=")+5);
+                            date = date.substring(0,date.indexOf("/"));
+                            myDate += Integer.parseInt(date);
+                            date =  date1.substring(date1.indexOf("date=")+8);
+                            date = date.substring(0,date.indexOf("/"));
+                            myDate += Integer.parseInt(date);
+                            date = date1.substring(date1.indexOf("date=")+11);
+                            date = date.substring(0,date.indexOf(","));
+                            myDate += Integer.parseInt(date);
+
+
+                          //  Toast.makeText(search_act.this, date, Toast.LENGTH_LONG).show();
+                            if(myDate<currentDate1) {
+                                d.getRef().removeValue();
+                            }
+
                         }
                     }
                     @Override

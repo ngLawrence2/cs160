@@ -65,6 +65,7 @@ public class result extends AppCompatActivity implements AsyncResponse {
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference().child("ParkingPost");
 
+        long startTime = System.currentTimeMillis();
         String destinationAddress = intent.getStringExtra("address");
         double latlongA[];
         double latlongB[];
@@ -148,6 +149,8 @@ public class result extends AppCompatActivity implements AsyncResponse {
             text.setText(val + "\n" + distanceString);
 
         }
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        Toast.makeText(result.this, elapsedTime + "", Toast.LENGTH_LONG).show();
 
         //Toast.makeText(result.this, owner, Toast.LENGTH_LONG).show();
 
