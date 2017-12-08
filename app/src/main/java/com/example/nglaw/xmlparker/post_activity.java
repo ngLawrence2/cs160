@@ -181,9 +181,9 @@ public class post_activity extends AppCompatActivity {
                 String index = city + zip + dateAvail;
                 String contact = contactBox.getText().toString().trim();
                 Post post = new Post(address, city, zip, dateAvail, startTime, endTime, price, index, contact, user);
-
-                //if parking spot is a single day
-                if(dateAvail.indexOf("-")==-1) {
+                if(isValidAddress(address) && isValidCity(city) && isValidZip(zip)) {
+                    //if parking spot is a single day
+                    if (dateAvail.indexOf("-") == -1) {
 
                   /*  String address = addressBox.getText().toString().toLowerCase().trim();
                     String city = cityBox.getText().toString().toLowerCase().trim();
@@ -195,60 +195,64 @@ public class post_activity extends AppCompatActivity {
                     String index = city + zip + dateAvail;
                     String contact = contactBox.getText().toString().trim();
                     Post post = new Post(address, city, zip, dateAvail, startTime, endTime, price, index, contact, user);*/
-                    ref.child("ParkingPost").push().setValue(post);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
-                    builder.setTitle("Success!")
-                            .setMessage("Your post has been posted!")
-                            .setCancelable(false)
-                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent home = new Intent(post_activity.this, MainActivity.class);
-                                    startActivity(home);
-                                    dialog.cancel();
+                        ref.child("ParkingPost").push().setValue(post);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
+                        builder.setTitle("Success!")
+                                .setMessage("Your post has been posted!")
+                                .setCancelable(false)
+                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent home = new Intent(post_activity.this, MainActivity.class);
+                                        startActivity(home);
+                                        dialog.cancel();
 
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
 
+                    }
+                } else {
+                    Toast.makeText(post_activity.this, "incorrect input format", Toast.LENGTH_LONG).show();
                 }
 
-                //parking spot on multiple days such as 10/31/17 - 11/02/17
-                if(dateAvail.indexOf("-")> 0) {
-                    String firstDateMonth = dateAvail.substring(0,dateAvail.indexOf("/"));
-                    String firstDateDay= dateAvail.substring(dateAvail.indexOf("/")+1,dateAvail.indexOf("/")+3);
-                    String firstDateYear = dateAvail.substring(dateAvail.indexOf("/")+4, dateAvail.indexOf("-"));
-                    String inputString = firstDateDay +  "-" + firstDateMonth + "-20" +firstDateYear;
-                    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                if(isValidAddress(address) && isValidCity(city) && isValidZip(zip)) {
+                    //parking spot on multiple days such as 10/31/17 - 11/02/17
+                    if (dateAvail.indexOf("-") > 0) {
+                        String firstDateMonth = dateAvail.substring(0, dateAvail.indexOf("/"));
+                        String firstDateDay = dateAvail.substring(dateAvail.indexOf("/") + 1, dateAvail.indexOf("/") + 3);
+                        String firstDateYear = dateAvail.substring(dateAvail.indexOf("/") + 4, dateAvail.indexOf("-"));
+                        String inputString = firstDateDay + "-" + firstDateMonth + "-20" + firstDateYear;
+                        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-                    String secondDateMonth = dateAvail.substring(dateAvail.indexOf("-")+1, dateAvail.indexOf("-")+3 );
-                    String secondDateDay = dateAvail.substring(dateAvail.indexOf("-")+4, dateAvail.indexOf("-")+6 );
-                    String secondDateYear = dateAvail.substring(dateAvail.indexOf("-")+7, dateAvail.indexOf("-")+9 );
-                    String secondDateString = secondDateDay +  "-" + secondDateMonth + "-20" +secondDateYear;
+                        String secondDateMonth = dateAvail.substring(dateAvail.indexOf("-") + 1, dateAvail.indexOf("-") + 3);
+                        String secondDateDay = dateAvail.substring(dateAvail.indexOf("-") + 4, dateAvail.indexOf("-") + 6);
+                        String secondDateYear = dateAvail.substring(dateAvail.indexOf("-") + 7, dateAvail.indexOf("-") + 9);
+                        String secondDateString = secondDateDay + "-" + secondDateMonth + "-20" + secondDateYear;
 
 
-                    Date firstDate;
-                    Date secondDate;
-                    try {
-                         firstDate = dateFormat.parse(inputString);
-                        secondDate = dateFormat.parse(secondDateString);
-                        int days = (int)getDateDiffString(firstDate,secondDate) +1;
+                        Date firstDate;
+                        Date secondDate;
+                        try {
+                            firstDate = dateFormat.parse(inputString);
+                            secondDate = dateFormat.parse(secondDateString);
+                            int days = (int) getDateDiffString(firstDate, secondDate) + 1;
 
-                        Calendar cal = Calendar.getInstance();
+                            Calendar cal = Calendar.getInstance();
 
-                        if(days < 7) {
+                            if (days < 7) {
                                 cal.setTime(firstDate);
                                 while (cal.getTime().before(secondDate)) {
 
-                                    String dates= cal.getTime().toString();
+                                    String dates = cal.getTime().toString();
 
                                     Date date = cal.getTime();
 
                                     String formattedDate1 = new SimpleDateFormat("MM/dd/yyy HH:mm:ss").format(date);
-                                    String myDate= formattedDate1.substring(0, formattedDate1.indexOf(" "));
-                                    myDate.replace(" ","");
-                                    myDate= myDate.substring(0,6) + myDate.substring(8,10);
-                                    index =city + zip + myDate;
+                                    String myDate = formattedDate1.substring(0, formattedDate1.indexOf(" "));
+                                    myDate.replace(" ", "");
+                                    myDate = myDate.substring(0, 6) + myDate.substring(8, 10);
+                                    index = city + zip + myDate;
                                     Post post1 = new Post(address, city, zip, myDate, startTime, endTime, price, index, contact, user);
 
                                     ref.child("ParkingPost").push().setValue(post1);
@@ -256,46 +260,47 @@ public class post_activity extends AppCompatActivity {
                                     cal.add(Calendar.DATE, 1);
                                 }
 
-                            String dates= cal.getTime().toString();
+                                String dates = cal.getTime().toString();
 
-                            Date date = cal.getTime();
+                                Date date = cal.getTime();
 
-                            String formattedDate1 = new SimpleDateFormat("MM/dd/yyy HH:mm:ss").format(date);
-                            String myDate= formattedDate1.substring(0, formattedDate1.indexOf(" "));
-                            myDate.replace(" ","");
-
-
-
-                            myDate= myDate.substring(0,6) + myDate.substring(8,10);
-                            index =city + zip + myDate;
-                            Post post1 = new Post(address, city, zip, myDate, startTime, endTime, price, index, contact, user);
-
-                            ref.child("ParkingPost").push().setValue(post1);
+                                String formattedDate1 = new SimpleDateFormat("MM/dd/yyy HH:mm:ss").format(date);
+                                String myDate = formattedDate1.substring(0, formattedDate1.indexOf(" "));
+                                myDate.replace(" ", "");
 
 
+                                myDate = myDate.substring(0, 6) + myDate.substring(8, 10);
+                                index = city + zip + myDate;
+                                Post post1 = new Post(address, city, zip, myDate, startTime, endTime, price, index, contact, user);
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
-                            builder.setTitle("Success!")
-                                    .setMessage("Your post has been posted!")
-                                    .setCancelable(false)
-                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            Intent home = new Intent(post_activity.this, MainActivity.class);
-                                            startActivity(home);
-                                            dialog.cancel();
+                                ref.child("ParkingPost").push().setValue(post1);
 
-                                        }
-                                    });
-                            AlertDialog alert = builder.create();
-                            alert.show();
 
-                        } else {
-                            Toast.makeText(post_activity.this, "max number of days is 7", Toast.LENGTH_LONG).show();
+                                AlertDialog.Builder builder = new AlertDialog.Builder(post_activity.this);
+                                builder.setTitle("Success!")
+                                        .setMessage("Your post has been posted!")
+                                        .setCancelable(false)
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                Intent home = new Intent(post_activity.this, MainActivity.class);
+                                                startActivity(home);
+                                                dialog.cancel();
+
+                                            }
+                                        });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+
+                            } else {
+                                Toast.makeText(post_activity.this, "max number of days is 7", Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(post_activity.this, "check format", Toast.LENGTH_LONG).show();
                         }
-
-                    } catch(Exception e) {
-                        Toast.makeText(post_activity.this, "check format", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Toast.makeText(post_activity.this, "incorrect input format", Toast.LENGTH_LONG).show();
                 }
             }
         });
